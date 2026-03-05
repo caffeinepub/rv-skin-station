@@ -1,0 +1,304 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Font faces ──────────────────────────────────────────────────── */
+@font-face {
+  font-family: "Fraunces";
+  src: url("/assets/fonts/Fraunces.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Plus Jakarta Sans";
+  src: url("/assets/fonts/PlusJakartaSans.woff2") format("woff2");
+  font-weight: 200 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ─── Design tokens (OKLCH — raw L C H values, no wrapper) ───────── */
+@layer base {
+  :root {
+    --radius: 0.75rem;
+
+    /* Base */
+    --background: 0.99 0.002 280;
+    --foreground: 0.18 0.02 280;
+
+    /* Card */
+    --card: 1 0 0;
+    --card-foreground: 0.18 0.02 280;
+
+    /* Popover */
+    --popover: 1 0 0;
+    --popover-foreground: 0.18 0.02 280;
+
+    /* Primary — violet-purple */
+    --primary: 0.50 0.18 290;
+    --primary-foreground: 0.99 0 0;
+
+    /* Secondary — soft lavender */
+    --secondary: 0.94 0.04 290;
+    --secondary-foreground: 0.30 0.12 290;
+
+    /* Muted */
+    --muted: 0.96 0.01 290;
+    --muted-foreground: 0.52 0.06 290;
+
+    /* Accent — warm skin-tone */
+    --accent: 0.93 0.03 60;
+    --accent-foreground: 0.25 0.05 60;
+
+    /* Destructive */
+    --destructive: 0.577 0.245 27.325;
+    --destructive-foreground: 0.985 0 0;
+
+    /* Border / Input / Ring */
+    --border: 0.90 0.03 290;
+    --input: 0.90 0.03 290;
+    --ring: 0.50 0.18 290;
+
+    /* Charts */
+    --chart-1: 0.646 0.222 41.116;
+    --chart-2: 0.6 0.118 184.704;
+    --chart-3: 0.398 0.07 227.392;
+    --chart-4: 0.828 0.189 84.429;
+    --chart-5: 0.769 0.188 70.08;
+
+    /* Sidebar */
+    --sidebar: 0.98 0.01 280;
+    --sidebar-foreground: 0.18 0.02 280;
+    --sidebar-primary: 0.50 0.18 290;
+    --sidebar-primary-foreground: 0.99 0 0;
+    --sidebar-accent: 0.94 0.04 290;
+    --sidebar-accent-foreground: 0.30 0.12 290;
+    --sidebar-border: 0.90 0.03 290;
+    --sidebar-ring: 0.50 0.18 290;
+
+    /* Clinic brand extras */
+    --brand-purple: 0.50 0.18 290;
+    --brand-lavender: 0.92 0.06 290;
+    --brand-skin: 0.92 0.05 60;
+    --brand-green: 0.55 0.15 145;
+    --brand-whatsapp: 0.65 0.20 145;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+/* ─── Utility classes ─────────────────────────────────────────────── */
+@layer utilities {
+  .font-display {
+    font-family: "Fraunces", Georgia, serif;
+  }
+
+  .font-body {
+    font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  }
+
+  /* Whatsapp green */
+  .bg-whatsapp {
+    background-color: oklch(0.55 0.20 145);
+  }
+
+  .bg-whatsapp-hover:hover {
+    background-color: oklch(0.50 0.20 145);
+  }
+
+  .text-whatsapp {
+    color: oklch(0.55 0.20 145);
+  }
+
+  /* Brand purple */
+  .bg-brand {
+    background-color: oklch(0.50 0.18 290);
+  }
+
+  .text-brand {
+    color: oklch(0.50 0.18 290);
+  }
+
+  /* Lavender bg */
+  .bg-lavender {
+    background-color: oklch(0.94 0.05 290);
+  }
+
+  /* Skin tone bg */
+  .bg-skin {
+    background-color: oklch(0.95 0.04 60);
+  }
+
+  /* Gradient hero overlay — bottom-anchored vignette, keeps top photo alive */
+  .hero-overlay {
+    background:
+      /* bottom vignette — rich deep purple rising from bottom */
+      linear-gradient(
+        to top,
+        oklch(0.12 0.10 290 / 0.95) 0%,
+        oklch(0.18 0.10 290 / 0.80) 30%,
+        oklch(0.20 0.08 290 / 0.50) 55%,
+        oklch(0.20 0.06 290 / 0.20) 75%,
+        transparent 100%
+      ),
+      /* top soft dark for nav legibility */
+      linear-gradient(
+        to bottom,
+        oklch(0.10 0.06 290 / 0.55) 0%,
+        transparent 28%
+      );
+  }
+
+  /* Grain texture overlay for hero depth */
+  .hero-grain::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    mix-blend-mode: overlay;
+    opacity: 0.6;
+  }
+
+  /* Card hover lift */
+  .card-hover {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .card-hover:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px oklch(0.50 0.18 290 / 0.15);
+  }
+
+  /* Gallery image hover */
+  .gallery-img {
+    overflow: hidden;
+  }
+
+  .gallery-img img {
+    transition: transform 0.4s ease;
+  }
+
+  .gallery-img:hover img {
+    transform: scale(1.06);
+  }
+
+  /* Scrollbar hide for review carousel */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Section spacing */
+  .section-padding {
+    @apply py-16 md:py-24;
+  }
+
+  /* Purple gradient bg */
+  .bg-purple-gradient {
+    background: linear-gradient(
+      135deg,
+      oklch(0.96 0.04 290) 0%,
+      oklch(0.99 0.01 290) 100%
+    );
+  }
+
+  /* Booking section: lavender mesh gradient */
+  .bg-booking-gradient {
+    background:
+      radial-gradient(ellipse 80% 60% at 20% 0%, oklch(0.90 0.07 290 / 0.55) 0%, transparent 65%),
+      radial-gradient(ellipse 60% 50% at 85% 100%, oklch(0.93 0.05 60 / 0.40) 0%, transparent 60%),
+      oklch(0.975 0.012 290);
+  }
+
+  /* Section eyebrow — replaces pill badges */
+  .section-eyebrow {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: oklch(0.50 0.18 290);
+    margin-bottom: 0.85rem;
+  }
+
+  /* WhatsApp CTA dominant glow */
+  .whatsapp-glow {
+    box-shadow:
+      0 0 0 0 oklch(0.55 0.20 145 / 0),
+      0 8px 32px oklch(0.55 0.20 145 / 0.45),
+      0 2px 8px oklch(0.55 0.20 145 / 0.30);
+  }
+
+  .whatsapp-glow:hover {
+    box-shadow:
+      0 0 0 0 oklch(0.55 0.20 145 / 0),
+      0 12px 40px oklch(0.55 0.20 145 / 0.55),
+      0 3px 12px oklch(0.55 0.20 145 / 0.35);
+    transform: translateY(-1px);
+  }
+
+  /* Noise texture overlay */
+  .noise-bg::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    opacity: 0.4;
+  }
+
+  /* WhatsApp pulse animation */
+  @keyframes pulse-green {
+    0%, 100% {
+      box-shadow: 0 0 0 0 oklch(0.55 0.20 145 / 0.5);
+    }
+    50% {
+      box-shadow: 0 0 0 8px oklch(0.55 0.20 145 / 0);
+    }
+  }
+
+  .whatsapp-pulse {
+    animation: pulse-green 2s infinite;
+  }
+
+  /* Fade-in up animation */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(24px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fadeInUp {
+    animation: fadeInUp 0.6s ease forwards;
+  }
+
+  .animate-delay-100 { animation-delay: 0.1s; }
+  .animate-delay-200 { animation-delay: 0.2s; }
+  .animate-delay-300 { animation-delay: 0.3s; }
+  .animate-delay-400 { animation-delay: 0.4s; }
+  .animate-delay-500 { animation-delay: 0.5s; }
+}
